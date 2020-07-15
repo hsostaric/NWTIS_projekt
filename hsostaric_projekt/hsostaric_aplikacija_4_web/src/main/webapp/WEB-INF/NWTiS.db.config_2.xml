@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>NWTIS konfiguracija</comment>
+<entry key="server.database">jdbc:derby://localhost:1527/</entry>
+<entry key="admin.username">hsostaric</entry>
+<entry key="admin.password">iozzE8</entry>
+<entry key="admin.database">nwtis_hsostaric_bp_1</entry>
+<entry key="user.username">hsostaric</entry>
+<entry key="user.password">iozzE8</entry>
+<entry key="user.database">nwtis_hsostaric_bp_2</entry>
+<entry key="jdbc.mysql">com.mysql.jdbc.Driver</entry>
+<entry key="jdbc.derby">org.apache.derby.jdbc.ClientDriver</entry>
+<entry key="OpenSkyNetwork.korisnik">soklica123</entry>
+<entry key="OpenSkyNetwork.lozinka">yugioh123</entry>
+<entry key="LocationIQ.token">2a10dc155b3b4c</entry>
+<entry key="OpenWeatherMap.apikey">ed91cb4097dc1ae9b36b2edcfd3747b2</entry>
+<entry key="preuzimanje.status">false</entry>
+<entry key="preuzimanje.pocetak">01.01.2020</entry>
+<entry key="preuzimanje.kraj">15.06.2020</entry>
+<entry key="preuzimanje.ciklus">60</entry>
+<entry key="preuzimanje.pauza">1000</entry>
+<entry key="serverSocket.port">8081</entry>
+<entry key="serverSocket.cekaci">100</entry>
+<entry key="dretva.username">admin</entry>
+<entry key="dretva.lozinka">123456</entry>
+<entry key="serverSocket.posluzitelj">localhost</entry>
+<entry key="dretva.slanjePodataka">10000</entry>
+<entry key="brojPoStranici">7</entry>
+<entry key="grupa.username">hsostaric</entry>
+<entry key="grupa.password">iozzE8</entry>
+<entry key="grupa.port">61613</entry>
+<entry key="grupa.host">nwtis.foi.hr</entry>
+<entry key="grupa.destination">/NWTiS/</entry>
+<entry key="grupa.korisnikNaziv">Hrvoje Šoštarić</entry>
+</properties>

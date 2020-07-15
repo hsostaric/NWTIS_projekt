@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./predlozak.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="naslov">
+        #{p['pogled5.naslov']}
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="mojaForma">
+            <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+            <h:selectOneMenu id="odabraniAerodrom" value="#{pracenjeAerodroma.odabraniAerodrom}" >
+                <f:selectItems value="#{pracenjeAerodroma.listaAerodroma}" 
+                               var="a" itemValue="#{a.icao}" itemLabel="#{a.icao} : #{a.naziv}"/>
+            </h:selectOneMenu>
+            <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+            <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+            <h:panelGrid columns="2">
+                <h:commandButton value="#{p['pogled5.prestaniPratit']} " action="#{pracenjeAerodroma.prestaniPratitAerodrom()}" >
+                    <f:ajax execute="@form" render="@form"/>
+                </h:commandButton>  
+                <h:commandButton value="#{p['pogled5.obrisiLetoveAerodroma']} " action="#{pracenjeAerodroma.obrisiLetoveAerodroma()}">
+                      <f:ajax execute="@form" render="@form"/>
+                </h:commandButton>
+                <h:outputText value="#{p['pogled5.serverResponse']}: "/>
+                <h:outputText value="#{pracenjeAerodroma.odgovorServera}"/>
+            </h:panelGrid>
+            <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+            <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{p['pogled5.udaljenostOd']}:"/>
+                <h:inputText id="udaljenostOD" value="#{pracenjeAerodroma.pocetnaUdaljenost}"/>
+                  <h:outputLabel value="#{p['pogled5.udaljenostDo']}: "/>
+                  <h:inputText id="udaljenostDO" value="#{pracenjeAerodroma.krajnjaUdaljenost}"/>
+            </h:panelGrid>
+            <h:commandButton value="#{p['pogled5.prikaziAerodromeRaspona']}" action="#{pracenjeAerodroma.prikaziAerodromeIzRaspona()}">
+                <f:ajax execute="@form" render="@form"/>
+            </h:commandButton>
+            <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+              <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+              <div id="aerodromiUdaljenosti" class="#{pracenjeAerodroma.vidljivostBloka}">
+                <h:outputText styleClass="praznaLinija" value="&nbsp;"/>
+                <p:dataTable id="letAerodroma" value="#{pracenjeAerodroma.listaAerodromaIzRaspona}" var="a" rows="#{upravljanjeAerodromima.brojStranica}"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink}
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}
+                             {RowsPerPageDropdown}">
+                    <p:column>
+                        <f:facet name="header">#{p['pogled5.icao']}</f:facet>#{a.icao}
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">#{p['pogled5.drzava']}</f:facet>#{a.drzava}
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">#{p['pogled5.naziv']}</f:facet>#{a.naziv}
+                    </p:column>
+                    <p:column> <f:facet name="header">#{p['pogled5.koordinate']}</f:facet>#{a.lokacija.latitude}, #{a.lokacija.longitude} </p:column>
+                    <p:column>
+                        <f:facet name="header">#{p['pogled5.udaljenost']}</f:facet>#{pracenjeAerodroma.udaljenostAerodroma(a.icao)}
+                    </p:column>
+                </p:dataTable>
+              </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+

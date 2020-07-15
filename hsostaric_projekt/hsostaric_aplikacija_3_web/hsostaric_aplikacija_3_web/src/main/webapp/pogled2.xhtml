@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./predlozak.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="naslov">
+        Pogled 2
+    </ui:define>
+
+    <ui:define name="content">
+        <h:outputLabel style="margin: 0 auto;">Status mrežne utičnice</h:outputLabel>
+        <h:form id="statusPosluzitelja">
+            <h:outputLabel>Statusi poslužitelja:</h:outputLabel>
+            <h:panelGrid columns="2">
+                <h:outputText value="Pauza "/>
+                <h:commandButton value="Stavi u pauzu" action="#{upravljanjeKomandama.staviUPauzu()}">
+                    <f:ajax render="@form"/>
+                </h:commandButton>
+                <h:outputText value="Radi "/>
+                <h:commandButton value="Nastavi sa radom" action="#{upravljanjeKomandama.nastaviSaRadom()}">
+                    <f:ajax render="@form"/>
+                </h:commandButton>
+                <h:outputText value="Kraj "/>
+                <h:commandButton value="Prekini rad" action="#{upravljanjeKomandama.prekiniRad()}">
+                    <f:ajax render="@form"/>
+                </h:commandButton>
+                <h:outputText value="Stanje "/>
+                <h:commandButton value="Stanje poslužitelja" action="#{upravljanjeKomandama.provjeriStanjePosluzitelja()}">
+                    <f:ajax render="@form"/>
+                </h:commandButton>
+            </h:panelGrid>
+            <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+            <h:panelGrid columns="2">
+                <h:outputText value="Naredba za slanje:  "/>
+                <h:outputText value="#{upravljanjeKomandama.komandaZaSlanje}"/>
+                <h:outputText value="Odgovor servera:  "/>
+                <h:outputText value="#{upravljanjeKomandama.odgovorServera}"/>
+            </h:panelGrid>
+        </h:form>
+        <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+        <h:form id="narebeGrupe">
+            <h:outputLabel>Statusi grupe:</h:outputLabel>
+            <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+             <h:panelGrid columns="2">
+                <h:outputText value="GRUPA PRIJAVI "/>
+                <h:commandButton value="Registriraj grupu" action="#{upravljanjeKomandama.registrirajGrupu()}">
+                    <f:ajax render="@form"/>
+                </h:commandButton>
+                <h:outputText value="GRUPA ODJAVI "/>
+                <h:commandButton value="Odjavi grupu" action="#{upravljanjeKomandama.odjaviGrupu()}">
+                    <f:ajax render="@form"/>
+                </h:commandButton>
+                <h:outputText value="GRUPA AKTIVIRAJ "/>
+                <h:commandButton value="Aktiviraj grupu" action="#{upravljanjeKomandama.aktivirajGrupu()}">
+                    <f:ajax render="@form"/>
+                </h:commandButton>
+                <h:outputText value="GRUPA BLOKIRAJ "/>
+                <h:commandButton value="Blokiraj grupu " action="#{upravljanjeKomandama.blokirajGrupu()}">
+                    <f:ajax render="@form"/>
+                </h:commandButton>
+                 <h:outputText value="GRUPA STANJE "/>
+                 <h:commandButton value="Stanje grupe " action="#{upravljanjeKomandama.grupaStanje()}">
+                    <f:ajax render="@form"/>
+                </h:commandButton>
+                  <h:outputText value="GRUPA AERODROMI"/>
+                  <h:commandButton value="Postavi aerodrome" action="#{upravljanjeKomandama.grupaAerodromi()}">
+                    <f:ajax render="@form"/>
+                </h:commandButton>
+            </h:panelGrid>
+            
+             <h:panelGrid columns="2">
+                <h:outputText value="Naredba za slanje:  "/>
+                <h:outputText value="#{upravljanjeKomandama.komandaZaSlanjeGrupa}"/>
+                <h:outputText value="Odgovor servera:  "/>
+                <h:outputText value="#{upravljanjeKomandama.odgovorServeraGrupa}"/>
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

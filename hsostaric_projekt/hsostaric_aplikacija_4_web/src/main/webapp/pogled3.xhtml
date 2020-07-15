@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./predlozak.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="naslov">
+        #{p['pogled3.naslov']}
+    </ui:define>
+    <ui:define name="content">
+        <script type="text/javascript">
+            var wsocket;
+            function connect() {
+                wsocket = new WebSocket("ws://localhost:8084/hsostaric_aplikacija_2_web/slanjeAerodroma");
+                wsocket.onmessage = onMessage;
+            }
+            function onMessage(evt) {
+                var zadnjipodaci = evt.data;
+                console.log("Stiglo je : " + zadnjipodaci);
+                document.getElementById("stanje:posljednjiPodaci").innerHTML = zadnjipodaci;
+            }
+            window.addEventListener("load", connect, false);
+        </script>
+        <h:outputText styleClass="praznaLinija" value="&nbsp;"/>
+        <h:form id="stanje">
+            <h:outputText id="posljednjiPodaci" />
+            <h:outputText styleClass="praznaLinija" value="&nbsp;"/>
+            <h:outputText styleClass="praznaLinija" value="&nbsp;"/>
+        </h:form>  
+        <div>
+            <h:form id="tablica1">
+                <h:outputText style="margin: 0 auto;" value="#{p['pogled3.korisnikoviAerodromi']}"/>
+                <h:outputText styleClass="praznaLinija" value="&nbsp;"/>
+                <p:dataTable id="aerodromiKorisnika" value="#{upravljanjeAerodromima.mojiAerodromi}" var="a" rows="#{upravljanjeAerodromima.brojStranica}"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink}
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}
+                             {RowsPerPageDropdown}">
+                    <p:column>
+                        <f:facet name="header">#{p['pogled3.icao']}</f:facet>#{a.ident.ident}
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">#{p['pogled3.naziv']}</f:facet>#{a.ident.name}
+                    </p:column>
+                    <p:column> <f:facet name="header">#{p['pogled3.drzava']}</f:facet>#{a.ident.isoCountry}</p:column>
+                    <p:column>
+                        <f:facet name="header">#{p['pogled3.brojKorisnika']}</f:facet>#{a.ident.myairportsList.size()}
+                    </p:column>
+                    <p:column> <f:facet name="header">#{p['pogled3.brojPreuzetihDana']}</f:facet>#{a.ident.myairportslogList.size()}</p:column>
+                    <p:column>
+                        <f:facet name="header">#{p['pogled3.brojPreuzetihLetova']}</f:facet>#{a.ident.airplanesList.size()}
+                    </p:column>
+                    <p:column> <f:facet name="header">#{p['pogled3.odabirAerodroma']}</f:facet>
+                        <h:commandButton 
+                            value="#{p['pogled3.prikaziGeoPodatke']}" action="#{upravljanjeAerodromima.dajPodatkeSaServisa(a.ident)}">
+                            <f:ajax event="action" execute="@this" render="@form"/>
+                        </h:commandButton></p:column>
+                </p:dataTable>
+                <h:panelGrid columns="1">
+                    <h:outputText id="geosirina" value="#{p['pogled3.geoSirina']}: #{upravljanjeAerodromima.latidudeServisa}"/>
+                    <h:outputText id="geoduzina" value="#{p['pogled3.geoDuzina']}: #{upravljanjeAerodromima.longitudeServisa}"/>
+                    <h:outputText id="temperatura" value="#{p['pogled3.temperatura']} : #{upravljanjeAerodromima.temperatura}"/>
+                    <h:outputText id="postotakVlage" value="#{p['pogled3.postotakVlage']} : #{upravljanjeAerodromima.postotakVlage}"/>
+                </h:panelGrid>
+                <br/>
+                <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{p['pogled3.naziv']}: "/>
+                    <h:inputText id="nazivZaFiltriranje" value="#{upravljanjeAerodromima.nazivZaFiltriranje}"/>
+                    <h:commandButton value="#{p['pogled3.pretraziAerodrome']}" action="#{upravljanjeAerodromima.dajFiltriranePodatke()}">
+                        <f:ajax execute="nazivZaFiltriranje" render="@form"/>
+                    </h:commandButton>
+                    <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+                </h:panelGrid>
+                <div class="#{upravljanjeAerodromima.vidljivostBloka}">
+                    <h:selectOneMenu id="odabraniAerodrom" value="#{upravljanjeAerodromima.odabraniAerodrom}" >
+                        <f:selectItems value="#{upravljanjeAerodromima.filtriraniAerodromi}" 
+                                       var="a" itemValue="#{a.ident}" itemLabel="#{a.ident} : #{a.name}"/>
+                    </h:selectOneMenu>
+                    <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+                    <h:commandButton value="#{p['pogled3.dodajAerodrom']}" action="#{upravljanjeAerodromima.posaljiPorukuNaEndpoint()}">
+                        <f:ajax execute="odabraniAerodrom" render="@form"/>
+                    </h:commandButton>
+                    <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+                    <h:outputLabel value="#{p['pogled3.endpointOdgovor']}: #{upravljanjeAerodromima.odgovorServera}"/>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>
